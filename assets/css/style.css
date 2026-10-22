@@ -1,0 +1,659 @@
+/* =====================================================================
+   Navy & White UI System v5 (มีโน้ตบอกตำแหน่งสีทุกจุด)
+   วางที่ assets/css/style.css
+   วิธีใช้โน้ต: ค้นหา (Ctrl+F) คำว่า "สี:" เพื่อดูจุดที่ใช้สีแต่ละที่
+   ===================================================================== */
+
+
+/* =====================================================================
+   1) ตัวแปรสี โหมดสว่าง (Light)
+   แก้สีทั้งเว็บได้จากตรงนี้ที่เดียว
+   ===================================================================== */
+:root {
+    /* ---------- สีหลัก (Navy) ---------- */
+    --meb-primary: #23457a;          /* สี: พื้นปุ่มหลัก "ยืนยันการเช่า/เติมเงิน/อ่านเลย", แท็บหมวดหมู่ที่เลือกอยู่ */
+    --meb-primary-hover: #1a3560;    /* สี: ปุ่มหลักตอนเอาเมาส์ไปชี้ (เข้มขึ้น) */
+    --meb-accent: #23457a;           /* สี: ข้อความเน้น เช่น ราคา, ลิงก์, ชื่อหมวดหมู่, ไอคอนสีน้ำเงิน, ขอบปุ่มเส้นขอบ */
+    --meb-primary-light: #e8eef7;    /* สี: พื้นอ่อนของป้าย (badge) หมวดหมู่และสถานะผู้ใช้ */
+    --meb-primary-rgb: 35, 69, 122;  /* สี: ค่า RGB ของสีหลัก ใช้ทำเงา/ขอบโปร่งแสง (ต้องตรงกับ --meb-primary) */
+
+    /* ---------- พื้นผิว ---------- */
+    --meb-bg: hwb(214 22% 16%);               /* สี: พื้นหลังของทั้งหน้าเว็บ (ฟ้าขาวอ่อน) */
+    --meb-card-bg: #ffffff;          /* สี: พื้นการ์ดนิยาย, การ์ดรายละเอียด, ฟอร์ม, ฟุตเตอร์ */
+    --meb-text: #1b2a41;             /* สี: ตัวอักษรหลักทั้งเว็บ (น้ำเงินเข้มเกือบดำ) */
+    --meb-muted: #5f7189;            /* สี: ตัวอักษรรอง เช่น ชื่อผู้แต่ง, คำอธิบายเล็กๆ, หัวตาราง */
+    --meb-navbar-bg: #ffffff;        /* สี: พื้นแถบเมนูด้านบน (Navbar) */
+    --meb-border: #dce5f0;           /* สี: เส้นขอบการ์ด, เส้นคั่น, เส้นขอบช่องกรอก */
+    --meb-input-bg: #eef3f9;         /* สี: พื้นช่องค้นหา, ช่องกรอกข้อมูล, ปุ่มสลับโหมดมืด, ปุ่มชื่อผู้ใช้ */
+    --meb-dropdown-bg: #ffffff;      /* สี: พื้นเมนูเลื่อนลงตอนกดชื่อผู้ใช้ */
+    --meb-synopsis-bg: #f5f8fc;      /* สี: พื้นกล่องเรื่องย่อ และกล่องแสดงยอดชำระในหน้านิยาย */
+    --meb-calc-bg: #ffffff;          /* สี: พื้นกล่องคำนวณราคาเช่า */
+    --meb-table-header-bg: #eef3f9;  /* สี: พื้นหัวตารางประวัติการเช่า (หน้า profile) */
+
+    /* ---------- ไล่สี และเงา ---------- */
+    --meb-gradient: linear-gradient(135deg, #23457a 0%, #3b6aa8 100%);
+                                     /* สี: ไล่สีของโลโก้, หัวการ์ดเติมเงิน/คำนวณราคา, วงกลมตัวอักษรในโปรไฟล์ */
+    --meb-shadow-hover: 0 12px 24px rgba(16, 42, 76, 0.16);
+                                     /* สี: เงาของการ์ดนิยายตอนเอาเมาส์ชี้ */
+}
+
+
+/* =====================================================================
+   2) ตัวแปรสี โหมดมืด (Dark) - ทำงานเมื่อ <html data-theme="dark">
+   ใช้ชื่อตัวแปรเดียวกับด้านบน ค่าจะถูกสลับให้อัตโนมัติ
+   ===================================================================== */
+[data-theme="dark"] {
+    --meb-primary: #3a6db0;          /* สี: พื้นปุ่มหลักในโหมดมืด (สว่างขึ้นเพื่อให้เห็นชัดบนพื้นเข้ม) */
+    --meb-primary-hover: #4a80c8;    /* สี: ปุ่มหลักตอนชี้เมาส์ในโหมดมืด */
+    --meb-accent: #7db3ec;           /* สี: ข้อความเน้น/ราคา/ลิงก์ในโหมดมืด (ฟ้าอ่อน อ่านง่ายบนพื้นเข้ม) */
+    --meb-primary-light: rgba(125, 179, 236, 0.14);
+                                     /* สี: พื้นป้าย (badge) ในโหมดมืด */
+    --meb-primary-rgb: 125, 179, 236;/* สี: ค่า RGB ใช้ทำเงา/ขอบในโหมดมืด */
+
+    --meb-bg: #0d1a2d;               /* สี: พื้นหลังทั้งหน้าเว็บในโหมดมืด (Navy เข้ม) */
+    --meb-card-bg: #15263f;          /* สี: พื้นการ์ด/ฟอร์ม/ฟุตเตอร์ในโหมดมืด */
+    --meb-text: #e8eef8;             /* สี: ตัวอักษรหลักในโหมดมืด (ขาวอมฟ้า) */
+    --meb-muted: #9bb0cb;            /* สี: ตัวอักษรรองในโหมดมืด */
+    --meb-navbar-bg: #15263f;        /* สี: พื้น Navbar ในโหมดมืด */
+    --meb-border: #2a4163;           /* สี: เส้นขอบ/เส้นคั่นในโหมดมืด */
+    --meb-input-bg: #1d3150;         /* สี: พื้นช่องกรอก/ช่องค้นหาในโหมดมืด */
+    --meb-dropdown-bg: #15263f;      /* สี: พื้นเมนูเลื่อนลงในโหมดมืด */
+    --meb-synopsis-bg: #0f1e34;      /* สี: พื้นกล่องเรื่องย่อในโหมดมืด */
+    --meb-calc-bg: #15263f;          /* สี: พื้นกล่องคำนวณราคาในโหมดมืด */
+    --meb-table-header-bg: #1d3150;  /* สี: พื้นหัวตารางในโหมดมืด */
+    --meb-gradient: linear-gradient(135deg, #2f5f9e 0%, #1f4373 100%);
+                                     /* สี: ไล่สีโลโก้/หัวการ์ด/วงกลมโปรไฟล์ในโหมดมืด */
+    --meb-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.45);
+                                     /* สี: เงาการ์ดตอนชี้เมาส์ในโหมดมืด */
+}
+
+
+/* =====================================================================
+   3) พื้นฐานของทั้งหน้า
+   ===================================================================== */
+body.meb-theme {
+    font-family: 'Prompt', sans-serif;
+    background-color: var(--meb-bg);   /* สี: พื้นหลังทั้งเว็บ */
+    color: var(--meb-text);            /* สี: ตัวอักษรหลักทั้งเว็บ */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.65;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-wrapper {
+    flex: 1;
+}
+
+a {
+    color: var(--meb-accent);          /* สี: ลิงก์ทั่วไป เช่น "สมัครสมาชิกที่นี่" */
+}
+
+/* ข้อความที่ใช้สีหลักของธีม (ตัวหนังสือ) */
+.meb-text-main, .meb-brand-name, .meb-section-title, .meb-card-title, .meb-rating-text, .meb-footer-brand {
+    color: var(--meb-text) !important; /* สี: ชื่อแบรนด์ BookRent, หัวข้อ "นิยายแนะนำมาแรง", ชื่อเรื่องบนการ์ด, คะแนนดาว, ชื่อแบรนด์ท้ายเว็บ */
+}
+
+.text-muted,
+.text-secondary {
+    color: var(--meb-muted) !important; /* สี: ข้อความรอง เช่น ชื่อผู้แต่ง, "พบ 4 เรื่อง", เลขรีวิว */
+}
+
+.meb-hr {
+    border-color: var(--meb-border);   /* สี: เส้นคั่นในการ์ดโปรไฟล์ */
+    opacity: 1;
+}
+
+
+/* =====================================================================
+   4) แถบประกาศบนสุด (แถบโปรโมชันยาวสุดขอบ)
+   ===================================================================== */
+.top-bar-notice {
+    background: linear-gradient(90deg, #102a4c, #23457a); /* สี: แถบประกาศ "โปรโมชันเช่านิยาย..." ไล่ Navy เข้มไปกลาง */
+    font-size: 13px;
+}
+
+
+/* =====================================================================
+   5) แถบเมนู (Navbar)
+   ===================================================================== */
+.meb-navbar {
+    background-color: var(--meb-navbar-bg) !important; /* สี: พื้นแถบเมนูด้านบน */
+    border-bottom: 1px solid var(--meb-border);        /* สี: เส้นขอบล่างของแถบเมนู */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.meb-nav-link {
+    color: var(--meb-text) !important;     /* สี: ลิงก์ "หน้าแรก" ในแถบเมนู */
+}
+
+.meb-nav-link:hover {
+    color: var(--meb-accent) !important;   /* สี: ลิงก์ "หน้าแรก" ตอนชี้เมาส์ */
+}
+
+[data-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);                     /* สี: ไอคอนเมนูสามขีดบนมือถือ กลับเป็นสีขาวในโหมดมืด */
+}
+
+/* โลโก้สี่เหลี่ยมมุมมนข้างคำว่า BookRent */
+.meb-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--meb-gradient);       /* สี: พื้นโลโก้ไอคอนหนังสือ (ไล่สี Navy) */
+    color: white;                          /* สี: ไอคอนหนังสือในโลโก้ (ขาว) */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(16, 42, 76, 0.28); /* สี: เงาใต้โลโก้ */
+}
+
+.meb-logo-icon.sm {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+}
+
+.meb-brand-name {
+    font-size: 22px;
+}
+
+/* ชื่อ class เดิมมีคำว่า orange แต่ตอนนี้เป็นสี Navy */
+.meb-orange-text, .text-meb-orange {
+    color: var(--meb-accent) !important;   /* สี: คำว่า "Rent" ในโลโก้, ไอคอนในเมนู, ชื่อหมวดหมู่บนการ์ด, ข้อความเน้นต่างๆ */
+}
+
+.bg-meb-gradient {
+    background: var(--meb-gradient) !important; /* สี: หัวการ์ด "เติมเงิน" และ "คำนวณราคาเช่า" */
+}
+
+.bg-meb-light {
+    background-color: var(--meb-primary-light) !important; /* สี: พื้นป้ายหมวดหมู่ และป้ายสถานะ USER ในโปรไฟล์ */
+}
+
+.border-meb-orange-subtle {
+    border-color: rgba(var(--meb-primary-rgb), 0.25) !important; /* สี: ขอบกล่องแสดงยอดชำระสุทธิ */
+}
+
+/* ป้ายเล็ก E-BOOK RENTAL ข้างโลโก้ */
+.meb-badge-sub {
+    background-color: var(--meb-input-bg); /* สี: พื้นป้าย E-BOOK RENTAL */
+    color: var(--meb-muted);               /* สี: ตัวอักษรป้าย E-BOOK RENTAL */
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* ช่องค้นหาในแถบเมนู */
+.meb-nav-search {
+    width: 380px;
+}
+
+.meb-search-bg {
+    background-color: var(--meb-input-bg) !important; /* สี: พื้นช่องค้นหา */
+    border-color: var(--meb-border) !important;       /* สี: ขอบช่องค้นหา */
+    color: var(--meb-text) !important;                /* สี: ตัวอักษรที่พิมพ์ในช่องค้นหา */
+}
+
+.meb-search-bg::placeholder {
+    color: var(--meb-muted) !important;    /* สี: ข้อความจางๆ "ค้นหานิยาย ชื่อผู้แต่ง..." */
+}
+
+.meb-nav-search .form-control:focus {
+    box-shadow: none;
+}
+
+/* ปุ่มสลับโหมดมืด/สว่าง (ไอคอนพระจันทร์) */
+.meb-darkmode-toggle {
+    width: 40px;
+    height: 40px;
+    background-color: var(--meb-input-bg); /* สี: พื้นปุ่มพระจันทร์ */
+    border: 1px solid var(--meb-border);   /* สี: ขอบปุ่มพระจันทร์ */
+    color: var(--meb-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.meb-darkmode-toggle:hover {
+    transform: scale(1.08);
+    background-color: var(--meb-border);   /* สี: ปุ่มพระจันทร์ตอนชี้เมาส์ */
+}
+
+/* ป้ายยอดเงิน Wallet (฿9,999,999.00) - คงโทนทองอ่อนไว้เป็นสีเน้นคู่กับ Navy */
+.meb-coin-badge {
+    background-color: #fff6dc;             /* สี: พื้นป้ายยอดเงิน (ครีมทองอ่อน) */
+    border: 1px solid #f3dfa2;             /* สี: ขอบป้ายยอดเงิน */
+    transition: all 0.2s;
+}
+
+.meb-coin-badge:hover {
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .meb-coin-badge {
+    background-color: #3a3220;             /* สี: พื้นป้ายยอดเงินในโหมดมืด (น้ำตาลทองเข้ม) */
+    border-color: #6b5a2a;                 /* สี: ขอบป้ายยอดเงินในโหมดมืด */
+}
+
+.meb-coin-text {
+    color: #1b2a41;                        /* สี: ตัวเลขยอดเงินในป้าย */
+}
+
+[data-theme="dark"] .meb-coin-text {
+    color: #ffe9a8;                        /* สี: ตัวเลขยอดเงินในโหมดมืด (ทองอ่อน) */
+}
+
+/* เมนูเลื่อนลงของชื่อผู้ใช้ */
+.meb-dropdown-menu {
+    background-color: var(--meb-dropdown-bg) !important; /* สี: พื้นเมนูเลื่อนลง */
+    border: 1px solid var(--meb-border) !important;      /* สี: ขอบเมนูเลื่อนลง */
+}
+
+.meb-dropdown-item {
+    color: var(--meb-text) !important;     /* สี: ตัวอักษรรายการในเมนู เช่น "ประวัติการเช่าอ่าน" */
+}
+
+.meb-dropdown-item:hover {
+    background-color: var(--meb-input-bg) !important; /* สี: รายการในเมนูตอนชี้เมาส์ */
+}
+
+.dropdown-divider {
+    border-color: var(--meb-border);       /* สี: เส้นคั่นในเมนูเลื่อนลง */
+}
+
+
+/* =====================================================================
+   6) ปุ่มต่างๆ
+   ===================================================================== */
+
+/* ปุ่มหลักทึบ: "สมัครสมาชิก", "ยืนยันการเช่า", "ยืนยันเติมเงิน", "อ่านเลย" */
+.btn-meb-orange {
+    background-color: var(--meb-primary);  /* สี: พื้นปุ่มหลัก (Navy) */
+    color: white;                          /* สี: ตัวอักษรบนปุ่มหลัก (ขาว) */
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-meb-orange:hover,
+.btn-meb-orange:focus {
+    background-color: var(--meb-primary-hover); /* สี: ปุ่มหลักตอนชี้เมาส์ (เข้มขึ้น) */
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--meb-primary-rgb), 0.35); /* สี: เงาของปุ่มหลักตอนชี้เมาส์ */
+}
+
+/* ปุ่มเส้นขอบ: "เข้าสู่ระบบ", "เช่าเลย", ปุ่มจำนวนเงิน ฿100/฿300/฿500 */
+.btn-outline-meb {
+    border: 1px solid var(--meb-accent);   /* สี: เส้นขอบปุ่ม */
+    color: var(--meb-accent);              /* สี: ตัวอักษรปุ่ม */
+    background: transparent;
+}
+
+.btn-outline-meb:hover,
+.btn-outline-meb:focus {
+    background-color: var(--meb-primary);  /* สี: พื้นปุ่มเส้นขอบตอนชี้เมาส์ (เต็ม Navy) */
+    border-color: var(--meb-primary);
+    color: white;
+}
+
+/* ปุ่มชื่อผู้ใช้ในแถบเมนู (PXCCI) */
+.btn-meb-user {
+    background-color: var(--meb-input-bg); /* สี: พื้นปุ่มชื่อผู้ใช้ */
+    color: var(--meb-text);
+    border: 1px solid var(--meb-border);   /* สี: ขอบปุ่มชื่อผู้ใช้ */
+    font-weight: 500;
+}
+
+.btn-meb-user:hover,
+.btn-meb-user.show {
+    background-color: var(--meb-primary-light); /* สี: ปุ่มชื่อผู้ใช้ตอนชี้เมาส์/เปิดเมนู */
+    color: var(--meb-text);
+    border-color: var(--meb-accent);
+}
+
+
+/* =====================================================================
+   7) แบนเนอร์ใหญ่หน้าแรก (Hero)
+   ===================================================================== */
+.meb-hero-banner {
+    background: linear-gradient(135deg, #102a4c 0%, #2a5a95 100%); /* สี: พื้นแบนเนอร์ใหญ่ "คลังนิยายยอดฮิต" ไล่ Navy เข้มไปฟ้า */
+}
+
+.meb-hero-banner .btn-light {
+    color: #23457a !important;             /* สี: ตัวอักษรปุ่มขาว "เลือกอ่านเลย" ในแบนเนอร์ */
+}
+
+/* วงกลมโปร่งแสงตกแต่งมุมแบนเนอร์ */
+.banner-bg-shape {
+    position: absolute;
+    right: -50px;
+    bottom: -50px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.07); /* สี: วงกลมขาวโปร่งแสงตกแต่งมุมขวาล่างของแบนเนอร์ */
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.85) !important; /* สี: ข้อความย่อยในแบนเนอร์ "ประหยัดสูงสุด 80%..." */
+}
+
+.hero-floating-book {
+    max-height: 220px;
+    transform: rotate(3deg);
+    transition: transform 0.3s ease;
+}
+
+.hero-floating-book:hover {
+    transform: rotate(0deg) scale(1.03);
+}
+
+
+/* =====================================================================
+   8) แท็บหมวดหมู่ (ทั้งหมด / Fantasy / Romance / Mystery)
+   ===================================================================== */
+.category-scroll-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.meb-cat-btn {
+    background-color: var(--meb-card-bg);  /* สี: พื้นแท็บหมวดหมู่ที่ยังไม่ได้เลือก */
+    color: var(--meb-muted);               /* สี: ตัวอักษรแท็บที่ยังไม่ได้เลือก */
+    border: 1px solid var(--meb-border);   /* สี: ขอบแท็บ */
+    border-radius: 50rem;
+    padding: 6px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.meb-cat-btn:hover {
+    border-color: var(--meb-accent);       /* สี: ขอบแท็บตอนชี้เมาส์ */
+    color: var(--meb-accent);              /* สี: ตัวอักษรแท็บตอนชี้เมาส์ */
+}
+
+.meb-cat-btn.active {
+    background-color: var(--meb-primary);  /* สี: พื้นแท็บที่เลือกอยู่ (Navy) */
+    color: #ffffff !important;             /* สี: ตัวอักษรแท็บที่เลือกอยู่ (ขาว) */
+    border-color: var(--meb-primary);
+    box-shadow: 0 4px 10px rgba(var(--meb-primary-rgb), 0.25); /* สี: เงาของแท็บที่เลือกอยู่ */
+}
+
+
+/* =====================================================================
+   9) การ์ดนิยายในหน้าแรก
+   ===================================================================== */
+.meb-book-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease;
+    overflow: hidden;
+    background-color: var(--meb-card-bg);  /* สี: พื้นการ์ดนิยาย */
+    border: 1px solid var(--meb-border) !important; /* สี: ขอบการ์ดนิยาย */
+}
+
+.meb-book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--meb-shadow-hover) !important; /* สี: เงาการ์ดตอนชี้เมาส์ */
+}
+
+.meb-cover-container {
+    position: relative;
+    padding-top: 135%; /* อัตราส่วนปก 3:4 */
+    overflow: hidden;
+    background-color: var(--meb-input-bg); /* สี: พื้นหลังรอรูปปกโหลด */
+}
+
+.meb-book-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.meb-book-card:hover .meb-book-cover {
+    transform: scale(1.05);
+}
+
+/* ป้าย "เช่าอ่าน" มุมซ้ายบนของปกนิยาย */
+.meb-rental-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(16, 42, 76, 0.92);    /* สี: พื้นป้าย "เช่าอ่าน" (Navy เข้มเกือบทึบ) */
+    color: white;                          /* สี: ตัวอักษรป้าย "เช่าอ่าน" */
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 50rem;
+    z-index: 2;
+}
+
+/* เลเยอร์มืดที่โผล่ตอนชี้เมาส์บนปก (มีปุ่ม "อ่านเรื่องย่อ") */
+.meb-card-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 26, 45, 0.55);    /* สี: เลเยอร์ Navy โปร่งแสงทับปกตอนชี้เมาส์ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.meb-book-card:hover .meb-card-hover-overlay {
+    opacity: 1;
+}
+
+.meb-card-footer-border {
+    border-top: 1px solid var(--meb-border); /* สี: เส้นคั่นก่อนส่วนราคาในการ์ด */
+}
+
+.meb-price-text {
+    color: var(--meb-accent);              /* สี: ตัวเลขราคา เช่น ฿15.00 */
+}
+
+
+/* =====================================================================
+   10) หน้ารายละเอียดนิยาย / การ์ดฟอร์ม (login, register, topup, novel)
+   ===================================================================== */
+.meb-detail-card, .meb-calc-card {
+    background-color: var(--meb-card-bg) !important; /* สี: พื้นการ์ดรายละเอียดนิยาย, ฟอร์มล็อกอิน/สมัคร/เติมเงิน */
+    border: 1px solid var(--meb-border) !important;  /* สี: ขอบการ์ดเหล่านั้น */
+    color: var(--meb-text);
+}
+
+.meb-detail-cover-box {
+    background-color: var(--meb-input-bg); /* สี: พื้นหลังกรอบปกใหญ่ในหน้ารายละเอียด */
+}
+
+.meb-synopsis-box {
+    background-color: var(--meb-synopsis-bg) !important; /* สี: พื้นกล่อง "เรื่องย่อ" */
+    border: 1px solid var(--meb-border);                 /* สี: ขอบกล่องเรื่องย่อ */
+    border-left: 4px solid var(--meb-primary);           /* สี: แถบสีน้ำเงินด้านซ้ายของกล่องเรื่องย่อ */
+}
+
+.meb-calc-display {
+    background-color: var(--meb-synopsis-bg) !important; /* สี: พื้นกล่อง "ยอดชำระสุทธิ" */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--meb-muted);               /* สี: เครื่องหมาย / คั่นเส้นทางนำทาง (หน้าแรก / หมวด / ชื่อเรื่อง) */
+}
+
+/* ช่องกรอกข้อมูลและ dropdown เลือกจำนวนวัน */
+.meb-input {
+    background-color: var(--meb-input-bg) !important; /* สี: พื้นช่องกรอก (username, password, จำนวนเงิน, เลือกวัน) */
+    border-color: var(--meb-border) !important;       /* สี: ขอบช่องกรอก */
+    color: var(--meb-text) !important;                /* สี: ตัวอักษรที่พิมพ์ในช่องกรอก */
+}
+
+.meb-input::placeholder {
+    color: var(--meb-muted);               /* สี: ข้อความจางๆ ในช่องกรอก */
+}
+
+.meb-input option {
+    background-color: var(--meb-card-bg);  /* สี: พื้นรายการในช่องเลือก (1 วัน, 3 วัน...) */
+    color: var(--meb-text);
+}
+
+.meb-input:focus {
+    border-color: var(--meb-accent) !important; /* สี: ขอบช่องกรอกตอนคลิกพิมพ์ */
+    box-shadow: 0 0 0 3px rgba(var(--meb-primary-rgb), 0.22) !important; /* สี: วงแสงรอบช่องกรอกตอนคลิกพิมพ์ */
+}
+
+
+/* =====================================================================
+   11) กล่องสถานะ / ข้อความแจ้งเตือน
+   ===================================================================== */
+.bg-success-subtle {
+    background-color: #e6f4ec !important;  /* สี: พื้นกล่องเขียว "คุณกำลังเช่านิยายเรื่องนี้อยู่" และป้าย "กำลังเช่า" */
+}
+
+[data-theme="dark"] .bg-success-subtle {
+    background-color: #14342a !important;  /* สี: พื้นกล่องเขียวในโหมดมืด */
+    color: #7ee0b0 !important;             /* สี: ตัวอักษรเขียวอ่อนในโหมดมืด */
+}
+
+[data-theme="dark"] .bg-success-subtle .text-dark {
+    color: var(--meb-text) !important;     /* สี: ข้อความ "หมดอายุการเช่า" ในกล่องเขียวโหมดมืด */
+}
+
+.bg-secondary-subtle {
+    background-color: var(--meb-input-bg) !important; /* สี: ป้ายเทา "หมดอายุ" ในตารางประวัติ */
+}
+
+.alert-danger {
+    background-color: #fdecee;             /* สี: พื้นกล่องแจ้ง error สีแดงอ่อน (รหัสผ่านไม่ถูกต้อง) */
+    border-color: #f5c2c7;                 /* สี: ขอบกล่อง error */
+    color: #842029;                        /* สี: ตัวอักษรกล่อง error (แดงเข้ม) */
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: #3a1a22;             /* สี: พื้นกล่อง error ในโหมดมืด */
+    border-color: #6b2a35;                 /* สี: ขอบกล่อง error ในโหมดมืด */
+    color: #f1aeb5;                        /* สี: ตัวอักษรกล่อง error ในโหมดมืด (ชมพูอ่อน) */
+}
+
+
+/* =====================================================================
+   12) หน้าโปรไฟล์
+   ===================================================================== */
+.avatar-circle {
+    background: var(--meb-gradient) !important; /* สี: วงกลมตัวอักษรแรกของชื่อผู้ใช้ (ทับสีส้มเดิมใน profile.php) */
+}
+
+
+/* =====================================================================
+   13) หน้าอ่านนิยาย
+   ===================================================================== */
+
+/* แถบเครื่องมือด้านบน (ปุ่มย้อนกลับ, ปรับขนาดตัวอักษร, เลือกธีม) */
+.meb-reader-toolbar {
+    background-color: var(--meb-card-bg) !important; /* สี: พื้นแถบเครื่องมืออ่าน */
+    border-color: var(--meb-border) !important;      /* สี: ขอบแถบเครื่องมืออ่าน */
+}
+
+.meb-btn-group-bg {
+    background-color: var(--meb-input-bg) !important; /* สี: พื้นกลุ่มปุ่ม - 18px + */
+    border-color: var(--meb-border) !important;
+}
+
+.meb-font-btn {
+    background-color: var(--meb-card-bg) !important;  /* สี: พื้นปุ่ม + และ - ปรับขนาดตัวอักษร */
+    color: var(--meb-text) !important;
+}
+
+/* กล่องเนื้อหานิยาย */
+.reader-box {
+    border-radius: 16px;
+    min-height: 550px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.novel-text-content {
+    line-height: 2.1;
+    font-size: 18px;
+    max-width: 740px;      /* จำกัดความกว้างบรรทัดให้อ่านสบาย */
+    margin: 0 auto;
+    word-wrap: break-word;
+}
+
+/* ธีมสีกระดาษที่ผู้อ่านเลือกได้ 3 แบบ (ปุ่ม ☀️ 📜 🌙) */
+.theme-light { background-color: #ffffff !important; color: #1b2a41 !important; } /* สี: ธีมอ่านสว่าง - พื้นขาว ตัวอักษรน้ำเงินเข้ม */
+.theme-sepia { background-color: #f6eedc !important; color: #4a3a2a !important; } /* สี: ธีมอ่านถนอมสายตา - พื้นครีม ตัวอักษรน้ำตาล */
+.theme-dark  { background-color: #0f1d33 !important; color: #dbe5f3 !important; } /* สี: ธีมอ่านมืด - พื้น Navy เข้ม ตัวอักษรขาวอมฟ้า */
+
+.reader-box.theme-dark .text-muted  { color: #9bb0cb !important; } /* สี: บรรทัด "เขียนโดย" ในธีมอ่านมืด */
+.reader-box.theme-sepia .text-muted { color: #8a7660 !important; } /* สี: บรรทัด "เขียนโดย" ในธีมครีม */
+.reader-box .border-bottom { border-color: rgba(128, 128, 128, 0.25) !important; } /* สี: เส้นใต้ชื่อผู้เขียนในหน้าอ่าน */
+
+
+/* =====================================================================
+   14) ตาราง (ประวัติการเช่าในหน้า profile / ตารางหน้า admin)
+   ===================================================================== */
+.meb-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--meb-text);
+    --bs-table-hover-bg: var(--meb-primary-light); /* สี: แถวในตารางตอนชี้เมาส์ */
+    --bs-table-hover-color: var(--meb-text);
+    --bs-table-border-color: var(--meb-border);    /* สี: เส้นคั่นแถวในตาราง */
+    color: var(--meb-text) !important;
+}
+
+.meb-table thead tr {
+    background-color: var(--meb-table-header-bg) !important; /* สี: พื้นแถวหัวตาราง */
+    color: var(--meb-text) !important;
+    border-bottom: 1px solid var(--meb-border);
+}
+
+.meb-table thead th {
+    background-color: var(--meb-table-header-bg);  /* สี: พื้นช่องหัวตาราง */
+    color: var(--meb-muted);                       /* สี: ตัวอักษรหัวตาราง (นิยาย / ระยะเวลา / ราคารวม) */
+    font-weight: 600;
+}
+
+.meb-table td {
+    border-bottom: 1px solid var(--meb-border);    /* สี: เส้นล่างของแต่ละแถว */
+    color: var(--meb-text);
+}
+
+
+/* =====================================================================
+   15) ฟุตเตอร์ (ท้ายเว็บ)
+   ===================================================================== */
+.meb-footer {
+    background-color: var(--meb-card-bg);          /* สี: พื้นฟุตเตอร์ */
+    border-top: 1px solid var(--meb-border);       /* สี: เส้นขอบบนของฟุตเตอร์ */
+}
+
+
+/* =====================================================================
+   16) แถบเลื่อน (Scrollbar) ด้านขวาของหน้าเว็บ
+   ===================================================================== */
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--meb-bg); }                      /* สี: รางแถบเลื่อน */
+::-webkit-scrollbar-thumb { background: var(--meb-border); border-radius: 10px; } /* สี: ก้อนแถบเลื่อน */
+::-webkit-scrollbar-thumb:hover { background: var(--meb-primary); }           /* สี: ก้อนแถบเลื่อนตอนชี้เมาส์ */
+
+
+/* =====================================================================
+   17) Responsive และการเคลื่อนไหว
+   ===================================================================== */
+@media (max-width: 575.98px) {
+    .meb-hero-banner h1 { font-size: 1.7rem; }
+    .novel-text-content { line-height: 1.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+}
